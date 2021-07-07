@@ -19,6 +19,11 @@ https://forums.alliedmods.net/showthread.php?p=2689340
 - sm_shuffle = !shuffle
     "Vote to shuffle or randomize teams"
 
+# Install
+- Simply copy and paste .smx inside addons/sourcemod/plugins folder
+- Use both "nmrih_tdm_maps.cfg" and "nmrih_soccermod_maps.cfg" files located inside addons/sourcemod/configs folder
+
+
 # Map Requirements
 - RED "trigger_multiple" (area_red) --> Adds players to RED team
 - BLUE "trigger_multiple" (area_blue) --> Adds players to BLUE team
