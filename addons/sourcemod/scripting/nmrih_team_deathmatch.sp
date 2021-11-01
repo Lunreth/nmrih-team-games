@@ -9,7 +9,7 @@
 #pragma dynamic 131072
 
 #define PLUGIN_AUTHOR "Ulreth*"
-#define PLUGIN_VERSION "1.2.0" // 28-06-2021
+#define PLUGIN_VERSION "1.2.0" // 31-10-2021
 #define PLUGIN_NAME "[NMRiH] Team Deathmatch Mod"
 
 // BASIC MAP REQUIREMENTS:
@@ -55,6 +55,8 @@ CHANGELOG
 - Added CFG files to manage TDM and SoccerMod maps
 - Added warning logs if map is not valid
 - Updated list of map requirements
+- Fixed player team selection bug
+- Fixed player movement during round start
 */
 
 #define TEAM_MAXPLAYERS 5
@@ -89,6 +91,7 @@ KeyValues hConfig;
 int g_GameMode = 0; // 0 = Classic TDM | 1 = SoccerMod
 bool g_PluginEnabled = true;
 bool g_Warmup = true;
+bool g_RoundStart = false;
 bool g_ExtractionStarted = false;
 
 // PLAYERS COUNT
@@ -188,7 +191,7 @@ public void OnPluginStart()
         }
     }
 	// TIMER FOR PLAYER COLOR
-	h_T_Global = CreateTimer(3.0, Timer_Global, _,TIMER_REPEAT);
+	h_T_Global = CreateTimer(1.0, Timer_Global, _, TIMER_REPEAT);
 }
 
 public void OnMapStart()
@@ -812,14 +815,14 @@ public Action OnTouch(int entity, int other)
 		if(StrEqual(trigger_name, "area_red", false))
 		{
 			// RED PLAYER JOINS THE MATCH
-			AddPlayerToArray(other, g_RedPlayers, true);
+			AddPlayerToArray(other, g_RedPlayers, false);
 			GetClientName(other, client_name, sizeof(client_name));
 			CPrintToChatAll("[{lime}TDM{default}] %s has joined {fullred}RED{default} team.", client_name);
         }
 		else if(StrEqual(trigger_name, "area_blue", false))
 		{
             // BLUE PLAYER JOINS THE MATCH
-			AddPlayerToArray(other, g_BluePlayers, true);
+			AddPlayerToArray(other, g_BluePlayers, false);
 			GetClientName(other, client_name, sizeof(client_name));
 			CPrintToChatAll("[{lime}TDM{default}] %s has joined {fullblue}BLUE{default} team.", client_name);			
         }
@@ -845,8 +848,8 @@ public Action Timer_PlayerSpawn(Handle timer, any client)
 	{
 		if (IsClientInGame(client))
 		{
-			if (IsPlayerAlive(client))
-			{
+			//if (IsPlayerAlive(client))
+			//{
 				char client_name[64];
 				GetClientName(client, client_name, sizeof(client_name));
 				// AT SPAWN WILL CHECK IF PLAYER CAN BE ADDED TO A TEAM
@@ -855,12 +858,12 @@ public Action Timer_PlayerSpawn(Handle timer, any client)
 				{
 					if ((g_RedCount < (TEAM_MAXPLAYERS-1)) && (g_RedCount < g_BlueCount) && (IsPlayerRed(client) == false) && (IsPlayerBlue(client) == false))
 					{
-						AddPlayerToArray(client, g_RedPlayers, true);
+						AddPlayerToArray(client, g_RedPlayers, false);
 					}
 					if ((g_BlueCount < (TEAM_MAXPLAYERS-1)) && (g_BlueCount <= g_RedCount) && (IsPlayerRed(client) == false) && (IsPlayerBlue(client) == false))
 					{
 						// CHECK IF POSSIBLE TO ADD TO BLUE TEAM
-						AddPlayerToArray(client, g_BluePlayers, true);
+						AddPlayerToArray(client, g_BluePlayers, false);
 					}
 				}
 				// MORE ACTIONS AFTER CHECKING TEAM
@@ -886,7 +889,7 @@ public Action Timer_PlayerSpawn(Handle timer, any client)
 					if (g_GameMode == 1) TeleportBackBlue(client);
 					return Plugin_Continue;
 				}
-			}
+			//}
 		}
 	}
 	return Plugin_Continue;
@@ -904,6 +907,7 @@ public void OnClientDisconnect(int client)
 public void Event_RoundStart(Event event, const char[] name, bool dontBroadcast)
 {
 	if ((g_PluginEnabled == false) && (GetConVarFloat(cvar_tdm_enabled) == 1.0)) return;
+	g_RoundStart = false;
 	if (g_Warmup == true)
 	{
 		g_Warmup = false;
@@ -996,6 +1000,7 @@ public void Event_PracticeStart(Event event, const char[] name, bool dontBroadca
 public void Event_ResetMap(Event event, const char[] name, bool dontBroadcast)
 {
 	if ((g_PluginEnabled == false) && (GetConVarFloat(cvar_tdm_enabled) == 1.0)) return;
+	g_RoundStart = true;
 	VariablesToZero();
 }
 
@@ -1440,6 +1445,7 @@ public Action Timer_Global(Handle timer)
 				if (g_Warmup == false) PrintHintText(g_RedPlayers[i], "|   RED %d  -  BLUE %d   |   YOU ARE RED PLAYER", g_RedScore, g_BlueScore);
 				if (IsPlayerAlive(g_RedPlayers[i]))
 				{
+					if (g_RoundStart) TeleportBackRed(g_RedPlayers[i]);
 					if (i == 0) DispatchKeyValue(g_RedPlayers[i], "glowcolor", RED_COLOR_1);
 					else if (i == 1) DispatchKeyValue(g_RedPlayers[i], "glowcolor", RED_COLOR_2);
 					else if (i == 2) DispatchKeyValue(g_RedPlayers[i], "glowcolor", RED_COLOR_3);
@@ -1456,6 +1462,7 @@ public Action Timer_Global(Handle timer)
 				if (g_Warmup == false) PrintHintText(g_BluePlayers[i], "|   BLUE %d  -  RED %d   |   YOU ARE BLUE PLAYER", g_BlueScore, g_RedScore);
 				if (IsPlayerAlive(g_BluePlayers[i]))
 				{
+					if (g_RoundStart) TeleportBackBlue(g_BluePlayers[i]);
 					if (i == 0) DispatchKeyValue(g_BluePlayers[i], "glowcolor", BLUE_COLOR_1);
 					else if (i == 1) DispatchKeyValue(g_BluePlayers[i], "glowcolor", BLUE_COLOR_2);
 					else if (i == 2) DispatchKeyValue(g_BluePlayers[i], "glowcolor", BLUE_COLOR_3);
