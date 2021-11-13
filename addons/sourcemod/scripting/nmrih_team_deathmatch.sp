@@ -27,7 +27,6 @@
 - Extraction Zone --> "func_nmrih_extractionzone"
 - RED "trigger_teleport" (TeledestinationT) --> RED team base teleport
 - BLUE "trigger_teleport" (TeledestinationCt)--> BLUE team base teleport
-
 - RED Template Maker "npc_template_maker" (template_red_gk)
 - BLUE Template Maker "npc_template_maker" (template_blue_gk)
 - RED "trigger_hurt" (red_hurt_npc)
@@ -247,6 +246,7 @@ public void OnMapStart()
 	}
 	VariablesToZero();
 	MatchVariablesZero();
+	SearchSpawns();
 }
 
 public void OnClientPutInServer(int client)
@@ -283,6 +283,7 @@ public Action OnTakeDamage(int victim, int &attacker, int &inflictor, float &dam
 			if (distance <= SOCCERMOD_GK_DISTANCE)
 			{
 				damage = 0.0;
+				PrintHintText(victim, "[SoccerMod] Ball stopped without taking damage!");
 				return Plugin_Changed;
 			}
 		}
@@ -625,7 +626,9 @@ public Action Command_GK(int client, int args)
 	if (IsPlayerRed(client) == true)
 	{
 		g_GK_red = client;
-		ExecuteNPC_GK("red_trigger_npc_area", "Disable");
+		ExecuteNPC_GK("trigger_multiple", "red_trigger_npc_area", "Disable");
+		ExecuteNPC_GK("npc_template_maker", "template_red_gk", "Disable");
+		ExecuteNPC_GK("trigger_hurt", "red_hurt_npc", "Enable");
 		//SetEntityHealth(client, 1000);
 		CPrintToChat(client, "[{lime}TDM{default}] You are now the goalkeeper of {fullred}RED{default} team, protected from ball damage");
 		//EmitSoundToClient(client, SOUND_KLAXON);
@@ -635,7 +638,9 @@ public Action Command_GK(int client, int args)
 	if (IsPlayerBlue(client) == true)
 	{
 		g_GK_blue = client;
-		ExecuteNPC_GK("blue_trigger_npc_area", "Disable");
+		ExecuteNPC_GK("trigger_multiple", "blue_trigger_npc_area", "Disable");
+		ExecuteNPC_GK("npc_template_maker", "template_blue_gk", "Disable");
+		ExecuteNPC_GK("trigger_hurt", "blue_hurt_npc", "Enable");
 		//SetEntityHealth(client, 1000);
 		CPrintToChat(client, "[{lime}TDM{default}] You are now the goalkeeper of {fullblue}BLUE{default} team, protected from ball damage");
 		//EmitSoundToClient(client, SOUND_KLAXON);
@@ -645,12 +650,12 @@ public Action Command_GK(int client, int args)
 	return Plugin_Continue;
 }
 	
-void ExecuteNPC_GK(char[] trigger_name, char[] input)
+void ExecuteNPC_GK(char[] classname, char[] trigger_name, char[] input)
 {
 	// REMOVE NPC GKs
 	int ent_t = -1;
 	char tr_name[32];
-	while ((ent_t = FindEntityByClassname(ent_t, "trigger_multiple")) != -1)
+	while ((ent_t = FindEntityByClassname(ent_t, classname)) != -1)
 	{
 		GetEntPropString(ent_t, Prop_Data, "m_iName", tr_name, sizeof(tr_name));
 		if (StrEqual(tr_name, trigger_name, true))
@@ -675,7 +680,9 @@ public Action Command_GK_Disable(int client, int args)
 	if (g_GK_red == client)
 	{
 		g_GK_red = -1;
-		ExecuteNPC_GK("red_trigger_npc_area", "Enable");
+		ExecuteNPC_GK("trigger_multiple", "red_trigger_npc_area", "Enable");
+		ExecuteNPC_GK("npc_template_maker", "template_red_gk", "Enable");
+		ExecuteNPC_GK("trigger_hurt", "red_hurt_npc", "Disable");
 		//SetEntityHealth(client, 200);
 		//EmitSoundToClient(client, SOUND_ELEV_BELL);
 		ClientCommand(client, SOUND_ELEV_BELL);
@@ -684,7 +691,9 @@ public Action Command_GK_Disable(int client, int args)
 	if (g_GK_blue == client)
 	{
 		g_GK_blue = -1;
-		ExecuteNPC_GK("blue_trigger_npc_area", "Enable");
+		ExecuteNPC_GK("trigger_multiple", "blue_trigger_npc_area", "Enable");
+		ExecuteNPC_GK("npc_template_maker", "template_blue_gk", "Enable");
+		ExecuteNPC_GK("trigger_hurt", "blue_hurt_npc", "Disable");
 		//SetEntityHealth(client, 200);
 		//EmitSoundToClient(client, SOUND_ELEV_BELL);
 		ClientCommand(client, SOUND_ELEV_BELL);
@@ -1158,8 +1167,18 @@ void TeleportBackRed(int client)
 	angles[1] -= 180.0;
 	angles[2] = client_angles[2];
 	// TELEPORTS RED PLAYER (OR GK) TO BASE
-	if (client == g_GK_red) TeleportEntity(client, g_Origin_Red_Goal, angles, NULL_VECTOR);
-	else TeleportEntity(client, g_OriginRed, angles, NULL_VECTOR);
+	if (client == g_GK_red)
+	{
+		float dest_gk_location[3];
+		dest_gk_location[0] = (g_OriginRed[0] + g_Origin_Red_Goal[0])/2.0;
+		dest_gk_location[1] = (g_OriginRed[1] + g_Origin_Red_Goal[1])/2.0;
+		dest_gk_location[2] = (g_OriginRed[2] + g_Origin_Red_Goal[2])/2.0;
+		TeleportEntity(client, dest_gk_location, angles, NULL_VECTOR);
+	}
+	else
+	{
+		TeleportEntity(client, g_OriginRed, angles, NULL_VECTOR);
+	}
 	SpawnWelderForClient(client);
 }
 
@@ -1176,8 +1195,18 @@ void TeleportBackBlue(int client)
 	angles[1] -= 180.0;
 	angles[2] = client_angles[2];
 	// TELEPORTS BLUE PLAYER TO BASE
-	if (client == g_GK_blue) TeleportEntity(client, g_Origin_Blue_Goal, angles, NULL_VECTOR);
-	else TeleportEntity(client, g_OriginBlue, angles, NULL_VECTOR);
+	if (client == g_GK_blue)
+	{
+		float dest_gk_location[3];
+		dest_gk_location[0] = (g_OriginBlue[0] + g_Origin_Blue_Goal[0])/2.0;
+		dest_gk_location[1] = (g_OriginBlue[1] + g_Origin_Blue_Goal[1])/2.0;
+		dest_gk_location[2] = (g_OriginBlue[2] + g_Origin_Blue_Goal[2])/2.0;
+		TeleportEntity(client, dest_gk_location, angles, NULL_VECTOR);
+	}
+	else
+	{
+		TeleportEntity(client, g_OriginBlue, angles, NULL_VECTOR);
+	}
 	SpawnWelderForClient(client);
 }
 
@@ -1560,7 +1589,7 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &iImpulse, float fVel
 				{
 					if (GetEntityFlags(client) & FL_DUCKING)
 					{
-						SetEntPropFloat(client, Prop_Data, "m_flLaggedMovementValue", 2.0);
+						SetEntPropFloat(client, Prop_Data, "m_flLaggedMovementValue", 1.5);
 					}
 					else
 					{
@@ -1569,7 +1598,7 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &iImpulse, float fVel
 					/*
 					if (buttons & IN_DUCK)
 					{
-						SetEntPropFloat(client, Prop_Data, "m_flLaggedMovementValue", 2.0);
+						SetEntPropFloat(client, Prop_Data, "m_flLaggedMovementValue", 1.5);
 					}
 					else
 					{
