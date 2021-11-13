@@ -1,16 +1,18 @@
 #include <sourcemod>
-#include <sdktools>
 #include <sdkhooks>
+#include <sdktools>
 #include <autoexecconfig>
-#include <morecolors>
+#include <multicolors>
 
 #pragma semicolon 1
 #pragma newdecls required
 #pragma dynamic 131072
 
 #define PLUGIN_AUTHOR "Ulreth*"
-#define PLUGIN_VERSION "1.2.0" // 31-10-2021
+#define PLUGIN_VERSION "1.2.0" // 12-11-2021
 #define PLUGIN_NAME "[NMRiH] Team Deathmatch Mod"
+
+#define FL_DUCKING (1<<1)
 
 // BASIC MAP REQUIREMENTS:
 /*
@@ -22,9 +24,18 @@
 - BLUE Spawn "info_player_nmrih" (ct_player) --> SoccerMod
 - RED Spawn "info_player_nmrih" (attacker) --> Team Deathmatch
 - BLUE Spawn "info_player_nmrih" (defender) --> Team Deathmatch
-- Extraction Zone "func_nmrih_extractionzone"
-- RED Teleport destination "trigger_teleport" (TeledestinationT) --> RED team base teleport
-- BLUE Teleport destination "trigger_teleport" (TeledestinationCt)--> BLUE team base teleport
+- Extraction Zone --> "func_nmrih_extractionzone"
+- RED "trigger_teleport" (TeledestinationT) --> RED team base teleport
+- BLUE "trigger_teleport" (TeledestinationCt)--> BLUE team base teleport
+
+- RED Template Maker "npc_template_maker" (template_red_gk)
+- BLUE Template Maker "npc_template_maker" (template_blue_gk)
+- RED "trigger_hurt" (red_hurt_npc)
+- BLUE "trigger_hurt" (blue_hurt_npc)
+- RED "trigger_multiple" (red_trigger_npc_area)
+- BLUE "trigger_multiple" (blue_trigger_npc_area)
+- RED "npc_nmrih_runnerzombie" (npc_gk_red)
+- BLUE "npc_nmrih_runnerzombie" (npc_gk_blue)
 
 Important note: Case sensitive for entity targetname
 */
@@ -54,13 +65,14 @@ CHANGELOG
 1.2.0:
 - Added CFG files to manage TDM and SoccerMod maps
 - Added warning logs if map is not valid
+- Added crouch bonus speed for GKs inside own areas
 - Updated list of map requirements
 - Fixed player team selection bug
 - Fixed player movement during round start
 */
 
 #define TEAM_MAXPLAYERS 5
-#define SOCCERMOD_GK_DISTANCE 256.0
+#define SOCCERMOD_GK_DISTANCE 320.0
 
 #define SOUND_WARNING_BELL "play *ambient/alarms/warningbell1.wav"
 #define SOUND_KLAXON "play *ambient/alarms/klaxon1.wav"
@@ -93,6 +105,7 @@ bool g_PluginEnabled = true;
 bool g_Warmup = true;
 bool g_RoundStart = false;
 bool g_ExtractionStarted = false;
+int g_LastScore = 0; // 0 = No goals scored | 1 = RED team scored previous round | 2 = BLUE team scored previous round
 
 // PLAYERS COUNT
 int g_PlayerCount = 0;
@@ -176,6 +189,7 @@ public void OnPluginStart()
 	HookEvent("nmrih_practice_ending", Event_PracticeStart);
 	HookEventEx("extraction_begin", Event_ExtractionBegin);
 	HookEventEx("objective_fail", Event_ResetVariables);
+	HookEventEx("player_join", Event_PlayerJoin, EventHookMode_Post);
 	HookEventEx("player_spawn", Event_PlayerSpawn, EventHookMode_Post);
 	// OnClientPutInServer
 	// OnClientDisconnect
@@ -191,7 +205,7 @@ public void OnPluginStart()
         }
     }
 	// TIMER FOR PLAYER COLOR
-	h_T_Global = CreateTimer(1.0, Timer_Global, _, TIMER_REPEAT);
+	h_T_Global = CreateTimer(3.0, Timer_Global, _, TIMER_REPEAT);
 }
 
 public void OnMapStart()
@@ -231,7 +245,6 @@ public void OnMapStart()
 		}
 		delete hConfig;
 	}
-	
 	VariablesToZero();
 	MatchVariablesZero();
 }
@@ -612,6 +625,7 @@ public Action Command_GK(int client, int args)
 	if (IsPlayerRed(client) == true)
 	{
 		g_GK_red = client;
+		ExecuteNPC_GK("red_trigger_npc_area", "Disable");
 		//SetEntityHealth(client, 1000);
 		CPrintToChat(client, "[{lime}TDM{default}] You are now the goalkeeper of {fullred}RED{default} team, protected from ball damage");
 		//EmitSoundToClient(client, SOUND_KLAXON);
@@ -621,6 +635,7 @@ public Action Command_GK(int client, int args)
 	if (IsPlayerBlue(client) == true)
 	{
 		g_GK_blue = client;
+		ExecuteNPC_GK("blue_trigger_npc_area", "Disable");
 		//SetEntityHealth(client, 1000);
 		CPrintToChat(client, "[{lime}TDM{default}] You are now the goalkeeper of {fullblue}BLUE{default} team, protected from ball damage");
 		//EmitSoundToClient(client, SOUND_KLAXON);
@@ -628,6 +643,22 @@ public Action Command_GK(int client, int args)
 		CPrintToChatAll("[{lime}TDM{default}] %s is now the goalkeeper of {fullblue}BLUE{default} team", client_name);
 	}
 	return Plugin_Continue;
+}
+	
+void ExecuteNPC_GK(char[] trigger_name, char[] input)
+{
+	// REMOVE NPC GKs
+	int ent_t = -1;
+	char tr_name[32];
+	while ((ent_t = FindEntityByClassname(ent_t, "trigger_multiple")) != -1)
+	{
+		GetEntPropString(ent_t, Prop_Data, "m_iName", tr_name, sizeof(tr_name));
+		if (StrEqual(tr_name, trigger_name, true))
+		{
+			AcceptEntityInput(ent_t, input);
+			break;
+		}
+	}
 }
 
 public Action Command_GK_Disable(int client, int args)
@@ -644,6 +675,7 @@ public Action Command_GK_Disable(int client, int args)
 	if (g_GK_red == client)
 	{
 		g_GK_red = -1;
+		ExecuteNPC_GK("red_trigger_npc_area", "Enable");
 		//SetEntityHealth(client, 200);
 		//EmitSoundToClient(client, SOUND_ELEV_BELL);
 		ClientCommand(client, SOUND_ELEV_BELL);
@@ -652,6 +684,7 @@ public Action Command_GK_Disable(int client, int args)
 	if (g_GK_blue == client)
 	{
 		g_GK_blue = -1;
+		ExecuteNPC_GK("blue_trigger_npc_area", "Enable");
 		//SetEntityHealth(client, 200);
 		//EmitSoundToClient(client, SOUND_ELEV_BELL);
 		ClientCommand(client, SOUND_ELEV_BELL);
@@ -787,6 +820,7 @@ public Action OnTouch(int entity, int other)
 			if (StrEqual(trigger_name, "terro_But", false))
 			{
 				// WINNER: BLUE TEAM
+				g_LastScore = 2;
 				g_BlueScore = (g_BlueScore + 1);
 				KillTeam(g_RedPlayers);
 				ForceExtractTeam(g_BluePlayers);
@@ -796,6 +830,7 @@ public Action OnTouch(int entity, int other)
 			if (StrEqual(trigger_name, "ct_But", false))
 			{
 				// WINNER: RED TEAM
+				g_LastScore = 1;
 				g_RedScore = (g_RedScore + 1);
 				KillTeam(g_BluePlayers);
 				ForceExtractTeam(g_RedPlayers);
@@ -830,6 +865,17 @@ public Action OnTouch(int entity, int other)
 	return Plugin_Continue;
 }
 
+public Action Event_PlayerJoin(Event event, const char[] name, bool no_broadcast)
+{
+	if ((g_PluginEnabled == false) && (GetConVarFloat(cvar_tdm_enabled) == 1.0))
+	{
+		return Plugin_Continue;
+	}
+	int client = event.GetInt("index");
+	CreateTimer(0.2, Timer_PlayerSpawn, client);
+	return Plugin_Continue;
+}
+
 public Action Event_PlayerSpawn(Event event, const char[] name, bool no_broadcast)
 {
 	if ((g_PluginEnabled == false) && (GetConVarFloat(cvar_tdm_enabled) == 1.0))
@@ -838,7 +884,7 @@ public Action Event_PlayerSpawn(Event event, const char[] name, bool no_broadcas
 	}
 	int userid = event.GetInt("userid");
 	int client = GetClientOfUserId(userid);
-	CreateTimer(0.5, Timer_PlayerSpawn, client);
+	CreateTimer(0.2, Timer_PlayerSpawn, client);
 	return Plugin_Continue;
 }
 
@@ -924,7 +970,7 @@ public void Event_RoundStart(Event event, const char[] name, bool dontBroadcast)
 	if (GetConVarFloat(cvar_tdm_debug) == 1.0) CPrintToChatAll("[{lime}TDM{default}] %i players in-game.", g_PlayerCount);
 	if (GetConVarFloat(cvar_tdm_debug) == 1.0) CPrintToChatAll("[{lime}TDM{default}] %i players in {fullblue}BLUE{default} team.", g_BlueCount);
 	if (GetConVarFloat(cvar_tdm_debug) == 1.0) CPrintToChatAll("[{lime}TDM{default}] %i players in {fullred}RED{default} team.", g_RedCount);
-	if (g_GameMode == 1) CPrintToChatAll("[{lime}TDM{default}] Say {fullred}!red{default} or {fullblue}!blue{default} to switch teams.");
+	if (g_GameMode == 1) CPrintToChatAll("[{lime}TDM{default}] Say {fullred}!red{default} or {fullblue}!blue{default} to switch teams \n Say !gk to toggle between player and gk mode.");
 }
 
 public void Event_PlayerDeath(Event event, const char[] name, bool dontBroadcast)
@@ -994,6 +1040,7 @@ public void Event_PracticeStart(Event event, const char[] name, bool dontBroadca
 	g_RedScore = 0;
 	g_BlueScore = 0;
 	g_Warmup = true;
+	g_RoundStart = false;
 	SearchSpawns();
 }
 
@@ -1110,8 +1157,9 @@ void TeleportBackRed(int client)
 	angles[0] = 0.0;
 	angles[1] -= 180.0;
 	angles[2] = client_angles[2];
-	// TELEPORTS RED PLAYER TO BASE
-	TeleportEntity(client, g_OriginRed, angles, NULL_VECTOR);
+	// TELEPORTS RED PLAYER (OR GK) TO BASE
+	if (client == g_GK_red) TeleportEntity(client, g_Origin_Red_Goal, angles, NULL_VECTOR);
+	else TeleportEntity(client, g_OriginRed, angles, NULL_VECTOR);
 	SpawnWelderForClient(client);
 }
 
@@ -1128,7 +1176,8 @@ void TeleportBackBlue(int client)
 	angles[1] -= 180.0;
 	angles[2] = client_angles[2];
 	// TELEPORTS BLUE PLAYER TO BASE
-	TeleportEntity(client, g_OriginBlue, angles, NULL_VECTOR);
+	if (client == g_GK_blue) TeleportEntity(client, g_Origin_Blue_Goal, angles, NULL_VECTOR);
+	else TeleportEntity(client, g_OriginBlue, angles, NULL_VECTOR);
 	SpawnWelderForClient(client);
 }
 
@@ -1207,6 +1256,7 @@ void MatchVariablesZero()
 	g_GK_blue = -1;
 	g_PlayerCount = 0;
 	g_VotingCount = 0;
+	g_LastScore = 0;
 }
 
 public void AddPlayerToArray(int client, int[] array, bool alive)
@@ -1445,7 +1495,7 @@ public Action Timer_Global(Handle timer)
 				if (g_Warmup == false) PrintHintText(g_RedPlayers[i], "|   RED %d  -  BLUE %d   |   YOU ARE RED PLAYER", g_RedScore, g_BlueScore);
 				if (IsPlayerAlive(g_RedPlayers[i]))
 				{
-					if (g_RoundStart) TeleportBackRed(g_RedPlayers[i]);
+					//if (g_RoundStart) TeleportBackRed(g_RedPlayers[i]);
 					if (i == 0) DispatchKeyValue(g_RedPlayers[i], "glowcolor", RED_COLOR_1);
 					else if (i == 1) DispatchKeyValue(g_RedPlayers[i], "glowcolor", RED_COLOR_2);
 					else if (i == 2) DispatchKeyValue(g_RedPlayers[i], "glowcolor", RED_COLOR_3);
@@ -1462,7 +1512,7 @@ public Action Timer_Global(Handle timer)
 				if (g_Warmup == false) PrintHintText(g_BluePlayers[i], "|   BLUE %d  -  RED %d   |   YOU ARE BLUE PLAYER", g_BlueScore, g_RedScore);
 				if (IsPlayerAlive(g_BluePlayers[i]))
 				{
-					if (g_RoundStart) TeleportBackBlue(g_BluePlayers[i]);
+					//if (g_RoundStart) TeleportBackBlue(g_BluePlayers[i]);
 					if (i == 0) DispatchKeyValue(g_BluePlayers[i], "glowcolor", BLUE_COLOR_1);
 					else if (i == 1) DispatchKeyValue(g_BluePlayers[i], "glowcolor", BLUE_COLOR_2);
 					else if (i == 2) DispatchKeyValue(g_BluePlayers[i], "glowcolor", BLUE_COLOR_3);
@@ -1490,4 +1540,44 @@ public Action Timer_Global(Handle timer)
 		}
 	}
 	return Plugin_Continue;
+}
+
+public Action OnPlayerRunCmd(int client, int &buttons, int &iImpulse, float fVelocity[3], float fAngles[3], int &iWeapon) 
+{
+	if (IsClientInGame(client))
+	{
+		if (IsPlayerAlive(client))
+		{
+			if ((client == g_GK_blue) || (client == g_GK_red))
+			{
+				float gk_pos[3];
+				GetClientAbsOrigin(client, gk_pos);
+				
+				float distance;
+				if (client == g_GK_red) distance = GetVectorDistance(gk_pos, g_Origin_Red_Goal);
+				else if (client == g_GK_blue) distance = GetVectorDistance(gk_pos, g_Origin_Blue_Goal);
+				if (distance <= SOCCERMOD_GK_DISTANCE)
+				{
+					if (GetEntityFlags(client) & FL_DUCKING)
+					{
+						SetEntPropFloat(client, Prop_Data, "m_flLaggedMovementValue", 2.0);
+					}
+					else
+					{
+						SetEntPropFloat(client, Prop_Data, "m_flLaggedMovementValue", 1.0);
+					}
+					/*
+					if (buttons & IN_DUCK)
+					{
+						SetEntPropFloat(client, Prop_Data, "m_flLaggedMovementValue", 2.0);
+					}
+					else
+					{
+						SetEntPropFloat(client, Prop_Data, "m_flLaggedMovementValue", 1.0);
+					}
+					*/
+				}
+			}
+		}
+	}
 }
