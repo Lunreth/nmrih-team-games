@@ -39,3 +39,5 @@ https://forums.alliedmods.net/showthread.php?p=2689340
 - Extraction Zone `func_nmrih_extractionzone`
 - RED Teleport destination `trigger_teleport` (TeledestinationT) --> RED team base teleport
 - BLUE Teleport destination `trigger_teleport` (TeledestinationCt)--> BLUE team base teleport
+- RED `trigger_multiple` (red_trigger_npc_area)
+- BLUE `trigger_multiple` (blue_trigger_npc_area)
