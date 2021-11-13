@@ -1,5 +1,5 @@
 # NMRiH - Team Deathmatch Mod
-This plugin will provide a much better experience in certain mini-game maps like mg_soccer_2020 or tdm_castle_assault, people will be divided in teams of 4, match will be "Red vs Blue" and you will be able to identify your own goal and teammates.
+This plugin will provide a much better experience in certain mini-game maps like sm_artificial_grass or tdm_castle_assault, people will be divided in teams of 4, match will be "Red vs Blue" and you will be able to identify your own goal and teammates.
 
 https://forums.alliedmods.net/showthread.php?p=2689340
 
