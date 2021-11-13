@@ -1203,18 +1203,7 @@ void TeleportBackRed(int client)
 	angles[1] -= 180.0;
 	angles[2] = client_angles[2];
 	*/
-	if (angles[0] >= 270)
-	{
-		angles[0] -= 270;
-		angles[0] = (90-angles[0]);
-	}
-	else
-	{
-		if(angles[0] <= 90)
-		{
-			angles[0] *= -1;
-		}
-	}
+	angles[0] = 0.0;
 	angles[1] -= 180;
 	// TELEPORTS RED PLAYER (OR GK) TO BASE
 	if (client == g_GK_red)
@@ -1248,18 +1237,7 @@ void TeleportBackBlue(int client)
 	angles[1] -= 180.0;
 	angles[2] = client_angles[2];
 	*/
-	if (angles[0] >= 270)
-	{
-		angles[0] -= 270;
-		angles[0] = (90-angles[0]);
-	}
-	else
-	{
-		if(angles[0] <= 90)
-		{
-			angles[0] *= -1;
-		}
-	}
+	angles[0] = 0.0;
 	angles[1] -= 180;
 	// TELEPORTS BLUE PLAYER TO BASE
 	if (client == g_GK_blue)
