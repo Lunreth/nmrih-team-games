@@ -1103,33 +1103,34 @@ void ForceExtractTeam(const int[] team)
 			AcceptEntityInput(ent, "ObjectiveComplete");
 		}
 	}
-	ent = -1;
-	while (((ent = FindEntityByClassname(ent, "func_nmrih_extractionzone")) != -1) && (g_ExtractionStarted == false))
+	if (g_GameMode == 0)
 	{
-		if (IsValidEntity(ent))
+		ent = -1;
+		while (((ent = FindEntityByClassname(ent, "func_nmrih_extractionzone")) != -1) && (g_ExtractionStarted == false))
 		{
-			//AcceptEntityInput(ent, "Start");
-			float ent_origin[3];
-			GetEntPropVector(ent, Prop_Data, "m_vecOrigin", ent_origin);
-			ent_origin[2] += 32.0;
-			
-			Handle trace;
-			trace = TR_TraceRayEx(ent_origin, {90.0, 0.0, 0.0}, MASK_SHOT_HULL, RayType_Infinite);
-			float target_pos[3];
-			if(TR_DidHit(trace))
+			if (IsValidEntity(ent))
 			{
-				TR_GetEndPosition(target_pos, trace);
-				target_pos[2] += 32.0;
-			}
-			CloseHandle(trace);
-			
-			for (int i = 0; i < TEAM_MAXPLAYERS; i++)
-			{
-				if (team[i] != -1)
+				//AcceptEntityInput(ent, "Start");
+				float ent_origin[3];
+				GetEntPropVector(ent, Prop_Data, "m_vecOrigin", ent_origin);
+				ent_origin[2] += 32.0;
+				Handle trace;
+				trace = TR_TraceRayEx(ent_origin, {90.0, 0.0, 0.0}, MASK_SHOT_HULL, RayType_Infinite);
+				float target_pos[3];
+				if(TR_DidHit(trace))
 				{
-					if (IsClientInGame(team[i]))
+					TR_GetEndPosition(target_pos, trace);
+					target_pos[2] += 32.0;
+				}
+				CloseHandle(trace);
+				for (int i = 0; i < TEAM_MAXPLAYERS; i++)
+				{
+					if (team[i] != -1)
 					{
-						if (IsPlayerAlive(team[i])) TeleportEntity(team[i], target_pos, NULL_VECTOR, NULL_VECTOR);
+						if (IsClientInGame(team[i]))
+						{
+							if (IsPlayerAlive(team[i])) TeleportEntity(team[i], target_pos, NULL_VECTOR, NULL_VECTOR);
+						}
 					}
 				}
 			}
@@ -1613,18 +1614,40 @@ public Action Timer_Global(Handle timer)
 	}
 	if (g_GK_red > 0)
 	{
-		if (IsPlayerAlive(g_GK_red))
+		if (IsClientInGame(g_GK_red))
 		{
-			DispatchKeyValue(g_GK_red, "glowcolor", "200 100 0");
-			SetEntityRenderColor(g_GK_red, 255, 255, 255, 255);
+			if (IsPlayerAlive(g_GK_red))
+			{
+				DispatchKeyValue(g_GK_red, "glowcolor", "200 100 0");
+				SetEntityRenderColor(g_GK_red, 255, 255, 255, 255);
+			}
+		}
+		else
+		{
+			g_GK_red = -1;
+			ExecuteNPC_GK("trigger_multiple", "red_trigger_npc_area", "Enable");
+			ExecuteNPC_GK("npc_template_maker", "template_red_gk", "Enable");
+			ExecuteNPC_GK("trigger_hurt", "red_hurt_npc", "Disable");
+			CPrintToChatAll("[{lime}TDM{default}] Goalkeeper position for {fullred}RED{default} team is available now.");
 		}
 	}
 	if (g_GK_blue > 0)
 	{
-		if (IsPlayerAlive(g_GK_blue))
+		if (IsClientInGame(g_GK_blue))
 		{
-			DispatchKeyValue(g_GK_blue, "glowcolor", "100 200 255");
-			SetEntityRenderColor(g_GK_blue, 255, 255, 255, 255);
+			if (IsPlayerAlive(g_GK_blue))
+			{
+				DispatchKeyValue(g_GK_blue, "glowcolor", "100 200 255");
+				SetEntityRenderColor(g_GK_blue, 255, 255, 255, 255);
+			}
+		}
+		else
+		{
+			g_GK_blue = -1;
+			ExecuteNPC_GK("trigger_multiple", "blue_trigger_npc_area", "Enable");
+			ExecuteNPC_GK("npc_template_maker", "template_blue_gk", "Enable");
+			ExecuteNPC_GK("trigger_hurt", "blue_hurt_npc", "Disable");
+			CPrintToChatAll("[{lime}TDM{default}] Goalkeeper position for {fullblue}BLUE{default} team is available now.");
 		}
 	}
 	return Plugin_Continue;
@@ -1680,6 +1703,10 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &iImpulse, float fVel
 						SetEntPropFloat(client, Prop_Data, "m_flLaggedMovementValue", 1.0);
 					}
 					*/
+				}
+				else
+				{
+					SetEntPropFloat(client, Prop_Data, "m_flLaggedMovementValue", 1.0);
 				}
 			}
 		}
