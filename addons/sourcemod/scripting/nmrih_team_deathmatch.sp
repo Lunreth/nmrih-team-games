@@ -9,7 +9,7 @@
 #pragma dynamic 131072
 
 #define PLUGIN_AUTHOR "Ulreth*"
-#define PLUGIN_VERSION "1.2.0" // 13-11-2021
+#define PLUGIN_VERSION "1.2.0" // 14-11-2021
 #define PLUGIN_NAME "[NMRiH] Team Deathmatch Mod"
 
 #define FL_DUCKING (1<<1)
@@ -1001,12 +1001,14 @@ public void Event_RoundStart(Event event, const char[] name, bool dontBroadcast)
 		ExecuteNPC_GK("trigger_multiple", "red_trigger_npc_area", "Disable");
 		ExecuteNPC_GK("npc_template_maker", "template_red_gk", "Disable");
 		ExecuteNPC_GK("trigger_hurt", "red_hurt_npc", "Enable");
+		ExecuteNPC_GK("npc_nmrih_runnerzombie", "npc_gk_red", "Kill");
 	}
 	if (g_GK_blue > 0)
 	{
 		ExecuteNPC_GK("trigger_multiple", "blue_trigger_npc_area", "Disable");
 		ExecuteNPC_GK("npc_template_maker", "template_blue_gk", "Disable");
 		ExecuteNPC_GK("trigger_hurt", "blue_hurt_npc", "Enable");
+		ExecuteNPC_GK("npc_nmrih_runnerzombie", "npc_gk_blue", "Kill");
 	}
 	// FINAL PRINT
 	if (GetConVarFloat(cvar_tdm_debug) == 1.0) CPrintToChatAll("[{lime}TDM{default}] %i players in-game.", g_PlayerCount);
@@ -1616,6 +1618,7 @@ public Action Timer_Global(Handle timer)
 	{
 		if (IsClientInGame(g_GK_red))
 		{
+			ExecuteNPC_GK("npc_nmrih_runnerzombie", "npc_gk_red", "Kill");
 			if (IsPlayerAlive(g_GK_red))
 			{
 				DispatchKeyValue(g_GK_red, "glowcolor", "200 100 0");
@@ -1635,6 +1638,7 @@ public Action Timer_Global(Handle timer)
 	{
 		if (IsClientInGame(g_GK_blue))
 		{
+			ExecuteNPC_GK("npc_nmrih_runnerzombie", "npc_gk_blue", "Kill");
 			if (IsPlayerAlive(g_GK_blue))
 			{
 				DispatchKeyValue(g_GK_blue, "glowcolor", "100 200 255");
