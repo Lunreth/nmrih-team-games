@@ -9,7 +9,7 @@
 #pragma dynamic 131072
 
 #define PLUGIN_AUTHOR "Ulreth*"
-#define PLUGIN_VERSION "1.2.0" // 14-11-2021
+#define PLUGIN_VERSION "1.2.0" // 15-11-2021
 #define PLUGIN_NAME "[NMRiH] Team Deathmatch Mod"
 
 #define FL_DUCKING (1<<1)
@@ -1618,6 +1618,7 @@ public Action Timer_Global(Handle timer)
 	{
 		if (IsClientInGame(g_GK_red))
 		{
+			ExecuteNPC_GK("npc_template_maker", "template_red_gk", "Disable");
 			ExecuteNPC_GK("npc_nmrih_runnerzombie", "npc_gk_red", "Kill");
 			if (IsPlayerAlive(g_GK_red))
 			{
@@ -1638,6 +1639,7 @@ public Action Timer_Global(Handle timer)
 	{
 		if (IsClientInGame(g_GK_blue))
 		{
+			ExecuteNPC_GK("npc_template_maker", "template_blue_gk", "Disable");
 			ExecuteNPC_GK("npc_nmrih_runnerzombie", "npc_gk_blue", "Kill");
 			if (IsPlayerAlive(g_GK_blue))
 			{
