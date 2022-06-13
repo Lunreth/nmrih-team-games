@@ -24,8 +24,8 @@ https://forums.alliedmods.net/showthread.php?p=2689340
 - Use both `nmrih_tdm_maps.cfg` and `nmrih_soccermod_maps.cfg` files located inside addons/sourcemod/configs folder
 
 # Example maps:
-(Team Deathmatch) https://steamcommunity.com/sharedfiles/filedetails/?id=2040089546
-(SoccerMod) https://steamcommunity.com/sharedfiles/filedetails/?id=1971319798
+- (Team Deathmatch) https://steamcommunity.com/sharedfiles/filedetails/?id=2040089546
+- (SoccerMod) https://steamcommunity.com/sharedfiles/filedetails/?id=1971319798
 
 # Map Requirements
 - RED `trigger_multiple` (area_red) --> Adds players to RED team
