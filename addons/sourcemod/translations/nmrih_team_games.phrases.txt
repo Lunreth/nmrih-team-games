@@ -1,0 +1,486 @@
+"Phrases"
+{
+  "gk_red_saved_shot"
+  {
+    "#format" "{1:s}"
+    "en"  "[{lime}SOCCERMOD{default}] Goalkeeper {fullred}{1}{default} saved an incoming shot!"
+		"fr"	"[{lime}SOCCERMOD{default}] Le gardien de but {fullred}{1}{default} a arrêté un tir entrant !"
+		"pt"	"[{lime}SOCCERMOD{default}] O goleiro {fullred}{1}{default} defendeu um chute!"
+		"es"	"[{lime}SOCCERMOD{default}] ¡El portero {fullred}{1}{default} salvó un tiro entrante!"
+  }
+  "gk_blue_saved_shot"
+  {
+    "#format" "{1:s}"
+    "en"  "[{lime}SOCCERMOD{default}] Goalkeeper {fullblue}{1}{default} saved an incoming shot!"
+		"fr"	"[{lime}SOCCERMOD{default}] Le gardien de but {fullblue}{1}{default} a sauvé un tir entrant !"
+		"pt"	"[{lime}SOCCERMOD{default}] O goleiro {fullblue}{1}{default} defendeu um chute!"
+		"es"	"[{lime}SOCCERMOD{default}] ¡El portero {fullblue}{1}{default} salvó un tiro entrante!"
+  }
+  "you_have_ball"
+  {
+    "en"  "[{lime}SOCCERMOD{default}] YOU have the {yellow}BALL"
+		"fr"	"[{lime}SOCCERMOD{default}] VOUS avez la {yellow}BALLE"
+		"pt"	"[{lime}SOCCERMOD{default}] VOCÊ tem a {yellow}BOLA"
+		"es"	"[{lime}SOCCERMOD{default}] TÚ tienes el {yellow}BALÓN"
+  }
+  "ball_damage_detected"
+  {
+    "#format" "{1:f}"
+    "en"  "[{lime}SOCCERMOD{default}] {yellow}Ball{default} collision detected! (-{1} HP)"
+		"fr"	"[{lime}SOCCERMOD{default}] Collision de {yellow}balle{default} détectée ! (-{1} HP)"
+		"pt"	"[{lime}SOCCERMOD{default}] {yellow}Ball{default} colisão detectada! (-{1}HP)"
+		"es"	"[{lime}SOCCERMOD{default}] {yellow}Ball{default} ¡colisión detectada! (-{1} HP)"
+  }
+  "you_lost_ball_blue"
+  {
+    "#format" "{1:s}"
+    "en"  "[{lime}SOCCERMOD{default}] You lost the {yellow}BALL{default} and now {fullred}{1}{default} has it!"
+		"fr"	"[{lime}SOCCERMOD{default}] Vous avez perdu la {yellow}BALL{default} et maintenant {fullred}{1}{default} l'a !"
+		"pt"	"[{lime}SOCCERMOD{default}] Você perdeu a {yellow}BALL{default} e agora {fullred}{1}{default} tem!"
+		"es"	"[{lime}SOCCERMOD{default}] ¡Perdiste la {yellow}BALL{default} y ahora {fullred}{1}{default} la tiene!"
+  }
+  "you_lost_ball_red"
+  {
+    "#format" "{1:s}"
+    "en"  "[{lime}SOCCERMOD{default}] You lost the {yellow}BALL{default} and now {fullblue}{1}{default} has it!"
+		"fr"	"[{lime}SOCCERMOD{default}] Vous avez perdu la {yellow}BALL{default} et maintenant {fullblue}{1}{default} l'a !"
+		"pt"	"[{lime}SOCCERMOD{default}] Você perdeu a {yellow}BALL{default} e agora {fullblue}{1}{default} tem!"
+		"es"	"[{lime}SOCCERMOD{default}] ¡Perdiste la {yellow}BALL{default} y ahora {fullblue}{1}{default} la tiene!"
+  }
+  "nice_pass_blue"
+  {
+    "#format" "{1:s}"
+    "en"  "[{lime}SOCCERMOD{default}] Nice {yellow}pass{default} to your teammate {fullblue}{1}{default}!"
+		"fr"	"[{lime}SOCCERMOD{default}] Belle {yellow}passe{default} à votre coéquipier {fullblue}{1}{default} !"
+		"pt"	"[{lime}SOCCERMOD{default}] Bom {yellow}pass{default} para seu companheiro de equipe {fullblue}{1}{default}!"
+		"es"	"[{lime}SOCCERMOD{default}] ¡Buen {yellow}pase{default} para tu compañero de equipo {fullblue}{1}{default}!"
+  }
+  "nice_pass_red"
+  {
+    "#format" "{1:s}"
+    "en"  "[{lime}SOCCERMOD{default}] Nice {yellow}pass{default} to your teammate {fullred}{1}{default}!"
+		"fr"	"[{lime}SOCCERMOD{default}] Belle {yellow}passe{default} à votre coéquipier {fullred}{1}{default} !"
+		"pt"	"[{lime}SOCCERMOD{default}] Bom {yellow}pass{default} para seu companheiro de equipe {fullred}{1}{default}!"
+		"es"	"[{lime}SOCCERMOD{default}] ¡Buen {yellow}pase{default} a tu compañero de equipo {fullred}{1}{default}!"
+  }
+  "ball_kick_blue"
+  {
+    "#format" "{1:s}"
+    "en"  "[{lime}SOCCERMOD{default}] {fullblue}{1}{default} kicked the {yellow}ball{default}"
+		"fr"	"[{lime}SOCCERMOD{default}] {fullblue}{1}{default} a botté le {yellow}ballon{default}"
+		"pt"	"[{lime}SOCCERMOD{default}] {fullblue}{1}{default} chutou a {yellow}bola{default}"
+		"es"	"[{lime}SOCCERMOD{default}] {fullblue}{1}{default} pateó la {yellow}pelota{default}"
+  }
+  "ball_kick_red"
+  {
+    "#format" "{1:s}"
+    "en"  "[{lime}SOCCERMOD{default}] {fullred}{1}{default} kicked the {yellow}ball{default}"
+		"fr"	"[{lime}SOCCERMOD{default}] {fullred}{1}{default} a botté le {yellow}ballon{default}"
+		"pt"	"[{lime}SOCCERMOD{default}] {fullred}{1}{default} chutou a {yellow}bola{default}"
+		"es"	"[{lime}SOCCERMOD{default}] {fullred}{1}{default} pateó la {yellow}pelota{default}"
+  }
+  "amazing_goal_blue"
+  {
+    "#format" "{1:s}"
+    "en"  "[{lime}SOCCERMOD{default}] Player {fullblue}{1}{default} scores an amazing goal!"
+		"fr"	"[{lime}SOCCERMOD{default}] Le joueur {fullblue}{1}{default} marque un but incroyable !"
+		"pt"	"[{lime}SOCCERMOD{default}] O jogador {fullblue}{1}{default} marca um gol incrível!"
+		"es"	"[{lime}SOCCERMOD{default}] ¡El jugador {fullblue}{1}{default} marca un gol increíble!"
+  }
+  "amazing_goal_red"
+  {
+    "#format" "{1:s}"
+    "en"  "[{lime}SOCCERMOD{default}] Player {fullred}{1}{default} scores an amazing goal!"
+		"fr"	"[{lime}SOCCERMOD{default}] Le joueur {fullred}{1}{default} marque un but incroyable !"
+		"pt"	"[{lime}SOCCERMOD{default}] O jogador {fullred}{1}{default} marca um gol incrível!"
+		"es"	"[{lime}SOCCERMOD{default}] ¡El jugador {fullred}{1}{default} marca un gol increíble!"
+  }
+  "assisted_by_blue"
+  {
+    "#format" "{1:s}"
+    "en"  "[{lime}SOCCERMOD{default}] Assisted by {fullblue}{1}{default}!"
+		"fr"	"[{lime}SOCCERMOD{default}] Assisté par {fullblue}{1}{default} !"
+		"pt"	"[{lime}SOCCERMOD{default}] Assistência de {fullblue}{1}{default}!"
+		"es"	"[{lime}SOCCERMOD{default}] ¡Asistido por {fullblue}{1}{default}!"
+  }
+  "assisted_by_red"
+  {
+    "#format" "{1:s}"
+    "en"  "[{lime}SOCCERMOD{default}] Assisted by {fullred}{1}{default}!"
+		"fr"	"[{lime}SOCCERMOD{default}] Assisté par {fullred}{1}{default} !"
+		"pt"	"[{lime}SOCCERMOD{default}] Assistência de {fullred}{1}{default}!"
+		"es"	"[{lime}SOCCERMOD{default}] ¡Asistido por {fullred}{1}{default}!"
+  }
+  "own_goal_blue"
+  {
+    "#format" "{1:s}"
+    "en"  "[{lime}SOCCERMOD{default}] Embarrasing own goal made by {fullblue}{1}{default}!"
+		"fr"	"[{lime}SOCCERMOD{default}] But embarrassant réalisé par {fullblue}{1}{default} !"
+		"pt"	"[{lime}SOCCERMOD{default}] Gol contra embaraçoso feito por {fullblue}{1}{default}!"
+		"es"	"[{lime}SOCCERMOD{default}] ¡Gol vergonzoso en propia puerta de {fullblue}{1}{default}!"
+  }
+  "own_goal_red"
+  {
+    "#format" "{1:s}"
+    "en"  "[{lime}SOCCERMOD{default}] Embarrasing own goal made by {fullred}{1}{default}!"
+		"fr"	"[{lime}SOCCERMOD{default}] But contre son camp embarrassant réalisé par {fullred}{1}{default} !"
+		"pt"	"[{lime}SOCCERMOD{default}] Gol contra embaraçoso feito por {fullred}{1}{default}!"
+		"es"	"[{lime}SOCCERMOD{default}] ¡Gol vergonzoso en propia puerta de {fullred}{1}{default}!"
+  }
+  "blue_team_wins"
+  {
+    "en"  "[{lime}TEAM GAMES{default}] {fullblue}BLUE{default} team wins this round!"
+		"fr"	"[{lime}TEAM GAMES{default}] L'équipe {fullblue}BLUE{default} remporte cette manche !"
+		"pt"	"[{lime}TEAM GAMES{default}] A equipe {fullblue}BLUE{default} vence esta rodada!"
+		"es"	"[{lime}TEAM GAMES{default}] ¡El equipo {fullblue}AZUL{default} gana esta ronda!"
+  }
+  "red_team_wins"
+  {
+    "en"  "[{lime}TEAM GAMES{default}] {fullred}RED{default} team wins this round!"
+		"fr"	"[{lime}TEAM GAMES{default}] L'équipe {fullred}RED{default} remporte cette manche !"
+		"pt"	"[{lime}TEAM GAMES{default}] A equipe {fullred}RED{default} vence esta rodada!"
+		"es"	"[{lime}TEAM GAMES{default}] ¡El equipo {fullred}RED{default} gana esta ronda!"
+  }
+  "blue_team_center_wins"
+  {
+    "en"  "BLUE team wins!"
+		"fr"	"L'équipe BLEUE gagne !"
+		"pt"	"Equipe AZUL vence!"
+		"es"	"¡El equipo AZUL gana!"
+  }
+  "red_team_center_wins"
+  {
+    "en"  "RED team wins!"
+		"fr"	"L'équipe ROUGE gagne !"
+		"pt"	"Equipe VERMELHA vence!"
+		"es"	"¡El equipo ROJO gana!"
+  }
+  "joined_blue_team"
+  {
+    "#format" "{1:s}"
+    "en"  "[{lime}Team Games{default}] {1} has joined {fullblue}BLUE{default} team"
+		"fr"	"[{lime}Team Games{default}] {1} a rejoint l'équipe {fullblue}BLUE{default}"
+		"pt"	"[{lime}Team Games{default}] {1} juntou-se à equipa {fullblue}BLUE{default}"
+		"es"	"[{lime}Team Games{default}] {1} se ha unido al equipo {fullblue}AZUL{default}"
+  }
+  "joined_red_team"
+  {
+    "#format" "{1:s}"
+    "en"  "[{lime}Team Games{default}] {1} has joined {fullred}RED{default} team"
+		"fr"	"[{lime}Team Games{default}] {1} a rejoint l'équipe {fullred}RED{default}"
+		"pt"	"[{lime}Team Games{default}] {1} juntou-se à equipa {fullred}RED{default}"
+		"es"	"[{lime}Team Games{default}] {1} se ha unido al equipo {fullred}ROJO{default}"
+  }
+  "blue_team_full"
+  {
+    "en"  "[{lime}Team Games{default}] {fullblue}BLUE{default} team full, invalid command"
+		"fr"	"[{lime}Team Games{default}] {fullblue}BLUE{default} équipe complète, commande invalide"
+		"pt"	"[{lime}Team Games{default}] {fullblue}BLUE{default} equipe cheia, comando inválido"
+		"es"	"[{lime}Team Games{default}] Equipo {fullblue}AZUL{default} completo, comando no válido"
+  }
+  "red_team_full"
+  {
+    "en"  "[{lime}Team Games{default}] {fullred}RED{default} team full, invalid command"
+		"fr"	"[{lime}Team Games{default}] {fullred}RED{default} équipe complète, commande invalide"
+		"pt"	"[{lime}Team Games{default}] {fullred}RED{default} equipe cheia, comando inválido"
+		"es"	"[{lime}Team Games{default}] Equipo {fullred}ROJO{default} completo, comando no válido"
+  }
+  "blue_team_gk_available"
+  {
+    "en"  "[{lime}SOCCERMOD{default}] Goalkeeper position for {fullblue}BLUE{default} team is available now"
+		"fr"	"[{lime}SOCCERMOD{default}] Le poste de gardien de but pour l'équipe {fullblue}BLUE{default} est maintenant disponible"
+		"pt"	"[{lime}SOCCERMOD{default}] A posição de goleiro para a equipe {fullblue}BLUE{default} já está disponível"
+		"es"	"[{lime}SOCCERMOD{default}] La posición de portero para el equipo {fullblue}AZUL{default} ya está disponible"
+  }
+  "red_team_gk_available"
+  {
+    "en"  "[{lime}SOCCERMOD{default}] Goalkeeper position for {fullred}RED{default} team is available now"
+		"fr"	"[{lime}SOCCERMOD{default}] Le poste de gardien de but pour l'équipe {fullred}RED{default} est maintenant disponible"
+		"pt"	"[{lime}SOCCERMOD{default}] A posição de goleiro para a equipe {fullred}RED{default} já está disponível"
+		"es"	"[{lime}SOCCERMOD{default}] La posición de portero para el equipo {fullred}ROJO{default} ya está disponible"
+  }
+  "moved_to_blue"
+  {
+    "#format" "{1:s}"
+    "en"  "[{lime}Team Games{default}] {1} was moved to {fullblue}BLUE{default} team"
+		"fr"	"[{lime}Team Games{default}] {1} a été déplacé vers l'équipe {fullblue}BLUE{default}"
+		"pt"	"[{lime}Team Games{default}] {1} foi movido para a equipe {fullblue}BLUE{default}"
+		"es"	"[{lime}Team Games{default}] {1} se movió al equipo {fullblue}AZUL{default}"
+  }
+  "moved_to_red"
+  {
+    "#format" "{1:s}"
+    "en"  "[{lime}Team Games{default}] {1} was moved to {fullred}RED{default} team"
+		"fr"	"[{lime}Team Games{default}] {1} a été déplacé vers l'équipe {fullred}RED{default}"
+		"pt"	"[{lime}Team Games{default}] {1} foi movido para a equipe {fullred}RED{default}"
+		"es"	"[{lime}Team Games{default}] {1} se movió al equipo {fullred}ROJO{default}"
+  }
+  "unable_to_move"
+  {
+    "#format" "{1:s}"
+    "en"  "[{lime}Team Games{default}] Unable to move {1}, all teams are full!"
+		"fr"	"[{lime}Team Games{default}] Impossible de déplacer {1}, toutes les équipes sont complètes !"
+		"pt"	"[{lime}Team Games{default}] Não é possível mover {1}, todas as equipes estão cheias!"
+		"es"	"[{lime}Team Games{default}] No se puede mover {1}, ¡todos los equipos están llenos!"
+  }
+  "already_vote_shuffle"
+  {
+    "en"  "[{lime}Team Games{default}] You already voted to shuffle teams."
+		"fr"	"[{lime}Team Games{default}] Vous avez déjà voté pour mélanger les équipes."
+		"pt"	"[{lime}Team Games{default}] Você já votou para embaralhar as equipes."
+		"es"	"[{lime}Team Games{default}] Ya votaste para mezclar equipos."
+  }
+  "voted_to_shuffle"
+  {
+    "#format" "{1:d}"
+    "en"  "[{lime}Team Games{default}] +1 votes to randomize teams --- Total votes = (+{1})"
+		"fr"	"[{lime}Team Games{default}] +1 votes pour randomiser les équipes --- Total des votes = (+{1})"
+		"pt"	"[{lime}Team Games{default}] +1 votos para randomizar as equipes --- Total de votos = (+{1})"
+		"es"	"[{lime}Team Games{default}] +1 votos para aleatorizar equipos --- Votos totales = (+{1})"
+  }
+  "enough_votes_shuffle"
+  {
+    "en"  "[{lime}Team Games{default}] Votes acquired! Shuffling teams and {yellow}restarting{default} match!"
+		"fr"	"[{lime}Team Games{default}] Votes acquis ! Mélangez les équipes et {yellow}redémarrez{default} le match !"
+		"pt"	"[{lime}Team Games{default}] Votos adquiridos! Embaralhando equipes e {yellow}reiniciando{default} partida!"
+		"es"	"[{lime}Team Games{default}] ¡Votos adquiridos! ¡Mezcla de equipos y {yellow}reinicio{default} del partido!"
+  }
+  "you_must_alive_gk"
+  {
+    "en"  "[{lime}SOCCERMOD{default}] You must be alive to be goalkeeper"
+		"fr"	"[{lime}SOCCERMOD{default}] Vous devez être vivant pour être gardien de but"
+		"pt"	"[{lime}SOCCERMOD{default}] Você precisa estar vivo para ser goleiro"
+		"es"	"[{lime}SOCCERMOD{default}] Debes estar vivo para ser portero"
+  }
+  "gk_disabled_mode"
+  {
+    "en"  "[{lime}Team Games{default}] Goalkeeper disabled in this game mode"
+		"fr"	"[{lime}Team Games{default}] Gardien de but désactivé dans ce mode de jeu"
+		"pt"	"[{lime}Team Games{default}] Goleiro desativado neste modo de jogo"
+		"es"	"[{lime}Team Games{default}] Portero deshabilitado en este modo de juego"
+  }
+  "gk_already_full_red"
+  {
+    "en"  "[{lime}SOCCERMOD{default}] You cannot be goalkeeper, there is one already in {fullred}RED{default} team"
+		"fr"	"[{lime}SOCCERMOD{default}] Vous ne pouvez pas être gardien de but, il y en a déjà un dans l'équipe {fullred}RED{default}"
+		"pt"	"[{lime}SOCCERMOD{default}] Você não pode ser goleiro, já existe um no time {fullred}RED{default}"
+		"es"	"[{lime}SOCCERMOD{default}] No puedes ser portero, ya hay uno en el equipo {fullred}ROJO{default}"
+  }
+  "gk_already_full_blue"
+  {
+    "en"  "[{lime}SOCCERMOD{default}] You cannot be goalkeeper, there is one already in {fullblue}BLUE{default} team"
+		"fr"	"[{lime}SOCCERMOD{default}] Vous ne pouvez pas être gardien de but, il y en a déjà un dans l'équipe {fullblue}BLUE{default}"
+		"pt"	"[{lime}SOCCERMOD{default}] Você não pode ser goleiro, já existe um na equipe {fullblue}BLUE{default}"
+		"es"	"[{lime}SOCCERMOD{default}] No puedes ser portero, ya hay uno en el equipo {fullblue}AZUL{default}"
+  }
+  "you_are_gk_red"
+  {
+    "en"  "[{lime}SOCCERMOD{default}] You are now the goalkeeper of {fullred}RED{default} team, protected from ball damage"
+		"fr"	"[{lime}SOCCERMOD{default}] Vous êtes maintenant le gardien de but de l'équipe {fullred}RED{default}, protégé des dégâts de balle"
+		"pt"	"[{lime}SOCCERMOD{default}] Você agora é o goleiro do time {fullred}RED{default}, protegido contra danos de bola"
+		"es"	"[{lime}SOCCERMOD{default}] Ahora eres el portero del equipo {fullred}ROJO{default}, protegido del daño del balón"
+  }
+  "you_are_gk_blue"
+  {
+    "en"  "[{lime}SOCCERMOD{default}] You are now the goalkeeper of {fullblue}BLUE{default} team, protected from ball damage"
+		"fr"	"[{lime}SOCCERMOD{default}] Vous êtes maintenant le gardien de but de l'équipe {fullblue}BLUE{default}, protégé des dégâts de balle"
+		"pt"	"[{lime}SOCCERMOD{default}] Você agora é o goleiro do time {fullblue}BLUE{default}, protegido contra danos de bola"
+		"es"	"[{lime}SOCCERMOD{default}] Ahora eres el portero del equipo {fullblue}AZUL{default}, protegido del daño de la pelota"
+  }
+  "gk_announce_red"
+  {
+    "#format" "{1:s}"
+    "en"  "[{lime}SOCCERMOD{default}] {1} is now the goalkeeper of {fullred}RED{default} team"
+		"fr"	"[{lime}SOCCERMOD{default}] {1} est maintenant le gardien de but de l'équipe {fullred}RED{default}"
+		"pt"	"[{lime}SOCCERMOD{default}] {1} agora é o goleiro da equipe {fullred}RED{default}"
+		"es"	"[{lime}SOCCERMOD{default}] {1} ahora es el portero del equipo {fullred}ROJO{default}"
+  }
+  "gk_announce_blue"
+  {
+    "#format" "{1:s}"
+    "en"  "[{lime}SOCCERMOD{default}] {1} is now the goalkeeper of {fullblue}BLUE{default} team"
+		"fr"	"[{lime}SOCCERMOD{default}] {1} est maintenant le gardien de but de l'équipe {fullblue}BLUE{default}"
+		"pt"	"[{lime}SOCCERMOD{default}] {1} agora é o goleiro da equipe {fullblue}BLUE{default}"
+		"es"	"[{lime}SOCCERMOD{default}] {1} ahora es el portero del equipo {fullblue}AZUL{default}"
+  }
+  "invalid_team_red"
+  {
+    "en"  "[{lime}Team Games{default}] Invalid action, you currently belong to {fullred}RED{default} team."
+		"fr"	"[{lime}Team Games{default}] Action invalide, vous appartenez actuellement à l'équipe {fullred}RED{default}."
+		"pt"	"[{lime}Team Games{default}] Ação inválida, atualmente você pertence à equipe {fullred}RED{default}."
+		"es"	"[{lime}Team Games{default}] Acción no válida, actualmente perteneces al equipo {fullred}ROJO{default}."
+  }
+  "invalid_team_blue"
+  {
+    "en"  "[{lime}Team Games{default}] Invalid action, you currently belong to {fullblue}BLUE{default} team."
+		"fr"	"[{lime}Team Games{default}] Action invalide, vous appartenez actuellement à l'équipe {fullblue}BLUE{default}."
+		"pt"	"[{lime}Team Games{default}] Ação inválida, você atualmente pertence à equipe {fullblue}BLUE{default}."
+		"es"	"[{lime}Team Games{default}] Acción no válida, actualmente perteneces al equipo {fullblue}AZUL{default}."
+  }
+  "invalid_team_balance_change"
+  {
+    "en"  "[{lime}Team Games{default}] You cannot change team unless your current team has more players than enemy team."
+		"fr"	"[{lime}Team Games{default}] Vous ne pouvez pas changer d'équipe à moins que votre équipe actuelle ait plus de joueurs que l'équipe ennemie."
+		"pt"	"[{lime}Team Games{default}] Você não pode mudar de time a menos que seu time atual tenha mais jogadores do que o time inimigo."
+		"es"	"[{lime}Team Games{default}] No puedes cambiar de equipo a menos que tu equipo actual tenga más jugadores que el equipo enemigo."
+  }
+  "red_team_full_command"
+  {
+    "en"  "[{lime}Team Games{default}] {fullred}RED{default} team full, invalid command."
+		"fr"	"[{lime}Team Games{default}] Équipe {fullred}RED{default} complète, commande invalide."
+		"pt"	"[{lime}Team Games{default}] {fullred}RED{default} equipe cheia, comando inválido."
+		"es"	"[{lime}Team Games{default}] Equipo {fullred}ROJO{default} completo, comando no válido."
+  }
+  "blue_team_full_command"
+  {
+    "en"  "[{lime}Team Games{default}] {fullblue}BLUE{default} team full, invalid command."
+		"fr"	"[{lime}Team Games{default}] {fullblue}BLUE{default} équipe complète, commande invalide."
+		"pt"	"[{lime}Team Games{default}] {fullblue}BLUE{default} equipe cheia, comando inválido."
+		"es"	"[{lime}Team Games{default}] Equipo {fullblue}AZUL{default} completo, comando no válido."
+  }
+  "team_change_cooldown"
+  {
+    "#format" "{1:f}"
+    "en"  "[{lime}Team Games{default}] You must wait {yellow}{1}{default} seconds to change your team."
+		"fr"	"[{lime}Team Games{default}] Vous devez attendre {yellow}{1}{default} secondes pour changer d'équipe."
+		"pt"	"[{lime}Team Games{default}] Você deve esperar {yellow}{1}{default} segundos para mudar de equipe."
+		"es"	"[{lime}Team Games{default}] Debes esperar {yellow}{1}{default} segundos para cambiar tu equipo."
+  }
+  "round_start_announce"
+  {
+    "en"  "[{lime}Team Games{default}] Say {fullred}!red{default} or {fullblue}!blue{default} to switch teams \n Say {gold}!gk{default} to toggle between field player and GK mode."
+		"fr"	"[{lime}Team Games{default}] Dites {fullred}!red{default} ou {fullblue}!blue{default} pour changer d'équipe \n Dites {gold}!gk{default} pour basculer entre le mode joueur de terrain et le mode GK ."
+		"pt"	"[{lime}Team Games{default}] Escrever {fullred}!red{default} ou {fullblue}!blue{default} para trocar de time \n Diga {gold}!gk{default} para alternar entre o modo de jogador de campo e GK ."
+		"es"	"[{lime}Team Games{default}] Escribe {fullred}!rojo{default} o {fullblue}!azul{default} para cambiar de equipo \n Di {gold}!gk{default} para alternar entre el modo jugador de campo y GK ."
+  }
+  "all_red_died"
+  {
+    "en"  "[{lime}Team Games{default}] All members of {fullred}RED{default} team died!"
+		"fr"	"[{lime}Team Games{default}] Tous les membres de l'équipe {fullred}RED{default} sont morts !"
+		"pt"	"[{lime}Team Games{default}] Todos os membros da equipe {fullred}RED{default} morreram!"
+		"es"	"[{lime}Team Games{default}] ¡Todos los miembros del equipo {fullred}ROJO{default} murieron!"
+  }
+  "all_blue_died"
+  {
+    "en"  "[{lime}Team Games{default}] All members of {fullblue}BLUE{default} team died!"
+		"fr"	"[{lime}Team Games{default}] Tous les membres de l'équipe {fullblue}BLUE{default} sont morts !"
+		"pt"	"[{lime}Team Games{default}] Todos os membros da equipe {fullblue}BLUE{default} morreram!"
+		"es"	"[{lime}Team Games{default}] ¡Todos los miembros del equipo {fullblue}AZUL{default} murieron!"
+  }
+  "spawned_as_red_gk"
+  {
+    "en"  "[{lime}SOCCERMOD{default}] You spawned as {fullred}RED GOALKEEPER{default} inside your goal!"
+		"fr"	"[{lime}SOCCERMOD{default}] Vous êtes apparu en tant que {fullred}GARDIEN DE BUT ROUGE{default} dans votre objectif !"
+		"pt"	"[{lime}SOCCERMOD{default}] Você apareceu como {fullred}RED GOALKEEPER{default} dentro do seu gol!"
+		"es"	"[{lime}SOCCERMOD{default}] ¡Apareciste como {fullred}PORTERO ROJO{default} dentro de tu objetivo!"
+  }
+  "spawned_as_blue_gk"
+  {
+    "en"  "[{lime}SOCCERMOD{default}] You spawned as {fullblue}BLUE GOALKEEPER{default} inside your goal!"
+		"fr"	"[{lime}SOCCERMOD{default}] Vous êtes apparu en tant que {fullblue}GARDIEN DE BUT BLEU{default} dans votre objectif !"
+		"pt"	"[{lime}SOCCERMOD{default}] Você apareceu como {fullblue}BLUE GOALKEEPER{default} dentro do seu gol!"
+		"es"	"[{lime}SOCCERMOD{default}] ¡Apareciste como {fullblue}PORTERO AZUL{default} dentro de tu objetivo!"
+  }
+  "spawned_near_ball_red"
+  {
+    "en"  "[{lime}SOCCERMOD{default}] You spawned near the ball, use the {fullred}kick-off{default} wisely!"
+		"fr"	"[{lime}SOCCERMOD{default}] Vous êtes apparu près du ballon, utilisez le {fullred}coup d'envoi{default} à bon escient !"
+		"pt"	"[{lime}SOCCERMOD{default}] Você apareceu perto da bola, use o {fullred}kick-off{default} com sabedoria!"
+		"es"	"[{lime}SOCCERMOD{default}] ¡Apareciste cerca de la pelota, usa el {fullred}saque inicial{default} sabiamente!"
+  }
+  "spawned_near_ball_blue"
+  {
+    "en"  "[{lime}SOCCERMOD{default}] You spawned near the ball, use the {fullblue}kick-off{default} wisely!"
+		"fr"	"[{lime}SOCCERMOD{default}] Vous êtes apparu près du ballon, utilisez le {fullblue}coup d'envoi{default} à bon escient !"
+		"pt"	"[{lime}SOCCERMOD{default}] Você apareceu perto da bola, use o {fullblue}kick-off{default} com sabedoria!"
+		"es"	"[{lime}SOCCERMOD{default}] ¡Apareciste cerca de la pelota, usa el {fullblue}saque inicial{default} sabiamente!"
+  }
+  "removed_from_red"
+  {
+    "en"  "[{lime}Team Games{default}] Removed from {fullred}RED{default} team."
+		"fr"	"[{lime}Team Games{default}] Retiré de l'équipe {fullred}RED{default}."
+		"pt"	"[{lime}Team Games{default}] Removido da equipe {fullred}RED{default}."
+		"es"	"[{lime}Team Games{default}] Eliminado del equipo {fullred}ROJO{default}."
+  }
+  "removed_from_blue"
+  {
+    "en"  "[{lime}Team Games{default}] Removed from {fullblue}BLUE{default} team."
+		"fr"	"[{lime}Team Games{default}] Retiré de l'équipe {fullblue}BLUE{default}."
+		"pt"	"[{lime}Team Games{default}] Removido da equipe {fullblue}BLUE{default}."
+		"es"	"[{lime}Team Games{default}] Eliminado del equipo {fullblue}AZUL{default}."
+  }
+  "gk_no_damage_hint"
+  {
+    "en"  "[GOALKEEPER] NO DAMAGE FROM BALL"
+		"fr"	"[GARDIEN DE BUT] AUCUN DOMMAGE DU BALLON"
+		"pt"	"[GOALKEEPER] SEM DANO DE BOLA"
+		"es"	"[PORTERO] SIN DAÑOS POR BALÓN"
+  }
+  "ff_disabled_hint"
+  {
+    "en"  "[ALLY] FRIENDLY FIRE DISABLED"
+		"fr"	"[ALLIÉ] FRIENDLY FIRE DÉSACTIVÉ"
+		"pt"	"[ALLY] FOGO AMIGÁVEL DESATIVADO"
+		"es"	"[ALIADO] FUEGO AMIGABLE DESHABILITADO"
+  }
+  "red_gk_spam_hint"
+  {
+    "#format" "{1:d},{2:d}"
+    "en"  "YOU ARE RED *GOALKEEPER*   |   RED {1}  -  BLUE {2}   |"
+		"fr"	"TU ES ROUGE *GARDIEN DE BUT* | ROUGE {1} - BLEU {2} |"
+		"pt"	"VOCÊ É VERMELHO *GOALKEEPER* | VERMELHO {1} - AZUL {2} |"
+		"es"	"ERES ROJO *PORTERO* | ROJO {1} - AZUL {2} |"
+  }
+  "blue_gk_spam_hint"
+  {
+    "#format" "{1:d},{2:d}"
+    "en"  "YOU ARE BLUE *GOALKEEPER*   |   BLUE {1}  -  RED {2}   |"
+		"fr"	"TU ES BLEU *GARDIEN DE BUT* | BLEU {1} - ROUGE {2} |"
+		"pt"	"VOCÊ É AZUL *GOALKEEPER* | AZUL {1} - VERMELHO {2} |"
+		"es"	"ERES AZUL *PORTERO* | AZUL {1} - ROJO {2} |"
+  }
+  "red_player_spam_hint"
+  {
+    "#format" "{1:d},{2:d}"
+    "en"  "|   RED {1}  -  BLUE {2}   |   YOU ARE RED PLAYER"
+		"fr"	"| ROUGE {1} - BLEU {2} | VOUS ÊTES JOUEUR ROUGE"
+		"pt"	"| VERMELHO {1} - AZUL {2} | VOCÊ É O JOGADOR VERMELHO"
+		"es"	"| ROJO {1} - AZUL {2} | ERES JUGADOR ROJO"
+  }
+  "blue_player_spam_hint"
+  {
+    "#format" "{1:d},{2:d}"
+    "en"  "|   BLUE {1}  -  RED {2}   |   YOU ARE BLUE PLAYER"
+		"fr"	"| BLEU {1} - ROUGE {2} | VOUS ÊTES JOUEUR BLEU"
+		"pt"	"| AZUL {1} - VERMELHO {2} | VOCÊ É O JOGADOR AZUL"
+		"es"	"| AZUL {1} - ROJO {2} | ERES JUGADOR AZUL"
+  }
+  "red_team_game_text"
+  {
+    "en"  "--RED TEAM--"
+		"fr"	"--ÉQUIPE ROUGE--"
+		"pt"	"--EQUIPA VERMELHA--"
+		"es"	"--EQUIPO ROJO--"
+  }
+  "blue_team_game_text"
+  {
+    "en"  "--BLUE TEAM--"
+		"fr"	"--L'ÉQUIPE BLEUE--"
+		"pt"	"--TIME AZUL--"
+		"es"	"--EQUIPO AZUL--"
+  }
+  "red_gk_game_text"
+  {
+    "en"  "--RED GOALKEEPER--"
+		"fr"	"--GARDIEN DE BUT ROUGE--"
+		"pt"	"--GUARDEIRO VERMELHO--"
+		"es"	"--PORTERO ROJO--"
+  }
+  "blue_gk_game_text"
+  {
+    "en"  "--BLUE GOALKEEPER--"
+		"fr"	"--GARDIEN DE BUT BLEU--"
+		"pt"	"--GUARDEIRO AZUL--"
+		"es"	"--PORTERO AZUL--"
+  }
+}
