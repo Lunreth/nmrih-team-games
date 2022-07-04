@@ -8,7 +8,7 @@
 //#pragma dynamic 131072
 
 #define PLUGIN_AUTHOR "Ulreth*"
-#define PLUGIN_VERSION "1.3.0" // 27-06-2022
+#define PLUGIN_VERSION "1.3.1" // 4-07-2022
 #define PLUGIN_NAME "[NMRiH] Team Games"
 
 #define FL_DUCKING (1 << 1)
@@ -123,6 +123,11 @@ CHANGELOG
 - Fixed wrong team player count (when changing teams)
 - Fixed goal count when scoring at warmup round
 - Fixed ball steal and pass count
+
+1.3.1:
+- Removed spamming text when trying team change
+- Fixed team change wrong cvar cooldown
+- Fixed team change bug
 */
 
 #define TEAM_MAXPLAYERS 5
@@ -264,11 +269,11 @@ public Plugin myinfo =
 public void OnPluginStart()
 {
 	LoadTranslations("nmrih_team_games.phrases");
-	CreateConVar("tdm_version", PLUGIN_VERSION, PLUGIN_NAME, FCVAR_SPONLY|FCVAR_REPLICATED|FCVAR_NOTIFY);
+	CreateConVar("tdm_version", PLUGIN_VERSION, PLUGIN_NAME, FCVAR_NOTIFY);
 	cvar_tdm_enabled = CreateConVar("tdm_enable", "1.0", "Enable or disable Team Deathmatch plugin.", _, true, 0.0, true, 1.0);
 	cvar_tdm_debug = CreateConVar("tdm_debug", "0.0", "Debug mode for plugin - Will spam messages in console if set to 1", _, true, 0.0, true, 1.0);
 	cvar_tdm_insta_extract = CreateConVar("tdm_insta_extraction", "1.0", "Set to 1.0 if you want an instant extraction of players", _, true, 0.0, true, 1.0);
-	cvar_tdm_command_cd = CreateConVar("tdm_changeteam_cd", "30.0", "Amount of seconds that players should wait between any team change", _, true, 0.0, true, 1.0);
+	cvar_tdm_command_cd = CreateConVar("tdm_changeteam_cd", "30.0", "Amount of seconds that players should wait between any team change");
 	AutoExecConfig(true, "nmrih_team_games");
 	
 	// GK COMMANDS
@@ -776,7 +781,7 @@ public Action OnTouch(int entity, int other)
 		{
 			// RED PLAYER JOINS THE MATCH
 			RemoveFromTeam(other);
-			AddPlayerToArray(other, g_RedPlayers, false);
+			AddPlayerToArray(other, g_RedPlayers);
 			GetClientName(other, client_name, sizeof(client_name));
 			//CPrintToChatAll("[{lime}Team Games{default}] %s has joined {fullred}RED{default} team.", client_name);
 			CPrintToChatAll("%t", "joined_red_team", client_name);
@@ -785,7 +790,7 @@ public Action OnTouch(int entity, int other)
 		{
             // BLUE PLAYER JOINS THE MATCH
 			RemoveFromTeam(other);
-			AddPlayerToArray(other, g_BluePlayers, false);
+			AddPlayerToArray(other, g_BluePlayers);
 			GetClientName(other, client_name, sizeof(client_name));
 			//CPrintToChatAll("[{lime}Team Games{default}] %s has joined {fullblue}BLUE{default} team.", client_name);
 			CPrintToChatAll("%t", "joined_blue_team", client_name);			
@@ -937,7 +942,7 @@ public int Callback_Menu_MovePlayer(Menu hMenu, MenuAction action, int param1, i
 							CPrintToChatAll("%t", "blue_team_gk_available");
 						}
 						RemoveFromTeam(i);
-						AddPlayerToArray(i, g_RedPlayers, false);
+						AddPlayerToArray(i, g_RedPlayers);
 						if (IsPlayerAlive(i)) ForcePlayerSuicide(i);
 						//CPrintToChatAll("[{lime}Team Games{default}] %s was moved to {fullred}RED{default} team.", g_PlayerName[i]);
 						CPrintToChatAll("%t", "moved_to_red", g_PlayerName[i]);
@@ -963,7 +968,7 @@ public int Callback_Menu_MovePlayer(Menu hMenu, MenuAction action, int param1, i
 							CPrintToChatAll("%t", "red_team_gk_available");
 						}
 						RemoveFromTeam(i);
-						AddPlayerToArray(i, g_BluePlayers, false);
+						AddPlayerToArray(i, g_BluePlayers);
 						if (IsPlayerAlive(i)) ForcePlayerSuicide(i);
 						//CPrintToChatAll("[{lime}Team Games{default}] %s was moved to {fullblue}BLUE{default} team.", g_PlayerName[i]);
 						CPrintToChatAll("%t", "moved_to_blue", g_PlayerName[i]);
@@ -975,14 +980,14 @@ public int Callback_Menu_MovePlayer(Menu hMenu, MenuAction action, int param1, i
 						if (g_RedCount >= TEAM_MAXPLAYERS-1)
 						{
 							// Move to blue
-							AddPlayerToArray(i, g_BluePlayers, false);
+							AddPlayerToArray(i, g_BluePlayers);
 							//PrintToChatAll("[{lime}Team Games{default}] %s was moved to {fullblue}BLUE{default} team.", g_PlayerName[i]);
 							CPrintToChatAll("%t", "moved_to_blue", g_PlayerName[i]);
 						}
 						if (g_BlueCount >= TEAM_MAXPLAYERS-1)
 						{
 							// Move to red
-							AddPlayerToArray(i, g_RedPlayers, false);
+							AddPlayerToArray(i, g_RedPlayers);
 							//CPrintToChatAll("[{lime}Team Games{default}] %s was moved to {fullred}RED{default} team.", g_PlayerName[i]);
 							CPrintToChatAll("%t", "moved_to_red", g_PlayerName[i]);
 						}
@@ -1241,7 +1246,7 @@ public Action Command_Red(int client, int args)
 		return Plugin_Continue;
 	}
 	// AVOID TEAM UNBALANCE
-	if (g_BlueCount >= g_RedCount)
+	if (g_RedCount >= g_BlueCount)
 	{
 		//CPrintToChat(client, "[{lime}Team Games{default}] You cannot change team unless your current team has more players than enemy team.");
 		CPrintToChat(client, "%t", "invalid_team_balance_change");
@@ -1281,7 +1286,7 @@ public Action Command_Red(int client, int args)
 	}
 	g_PlayerMenuCooldown[client] = RoundToNearest(GetConVarFloat(cvar_tdm_command_cd)*10.0); // 30 seconds CD
 	RemoveFromTeam(client);
-	AddPlayerToArray(client, g_RedPlayers, false);
+	AddPlayerToArray(client, g_RedPlayers);
 	//EmitSoundToClient(client, SOUND_SURV_ALARM);
 	ClientCommand(client, SOUND_SURV_ALARM);
 	if (IsPlayerAlive(client)) ForcePlayerSuicide(client);
@@ -1313,7 +1318,7 @@ public Action Command_Blue(int client, int args)
 		return Plugin_Continue;
 	}
 	// AVOID TEAM UNBALANCE
-	if (g_RedCount >= g_BlueCount)
+	if (g_BlueCount >= g_RedCount)
 	{
 		//CPrintToChat(client, "[{lime}Team Games{default}] You cannot change team unless your current team has more players than enemy team.");
 		CPrintToChat(client, "%t", "invalid_team_balance_change");
@@ -1353,7 +1358,7 @@ public Action Command_Blue(int client, int args)
 	}
 	g_PlayerMenuCooldown[client] = RoundToNearest(GetConVarFloat(cvar_tdm_command_cd)*10.0); // 30 seconds CD
 	RemoveFromTeam(client);
-	AddPlayerToArray(client, g_BluePlayers, false);
+	AddPlayerToArray(client, g_BluePlayers);
 	//EmitSoundToClient(client, SOUND_SURV_ALARM);
 	ClientCommand(client, SOUND_SURV_ALARM);
 	if (IsPlayerAlive(client)) ForcePlayerSuicide(client);
@@ -1444,7 +1449,7 @@ public Action Timer_PlayerSpawn(Handle timer, any client)
 					if ((g_RedCount < (TEAM_MAXPLAYERS-1)) && (g_RedCount <= g_BlueCount))
 					{
 						RemoveFromTeam(client);
-						AddPlayerToArray(client, g_RedPlayers, false);
+						AddPlayerToArray(client, g_RedPlayers);
 						//CPrintToChatAll("[{lime}Team Games{default}] %s has joined {fullred}RED{default} team.", client_name);
 						CPrintToChatAll("%t", "joined_red_team", client_name);
 					}
@@ -1452,7 +1457,7 @@ public Action Timer_PlayerSpawn(Handle timer, any client)
 					{
 						// CHECK IF POSSIBLE TO ADD TO BLUE TEAM
 						RemoveFromTeam(client);
-						AddPlayerToArray(client, g_BluePlayers, false);
+						AddPlayerToArray(client, g_BluePlayers);
 						//CPrintToChatAll("[{lime}Team Games{default}] %s has joined {fullblue}BLUE{default} team.", client_name);
 						CPrintToChatAll("%t", "joined_blue_team", client_name);
 					}
@@ -1935,12 +1940,11 @@ void MatchVariablesZero()
 	Format(sMessage_BlueGK, sizeof(sMessage_BlueGK), "%t", "blue_gk_game_text");
 }
 
-public void AddPlayerToArray(int client, int[] array, bool alive)
+public void AddPlayerToArray(int client, int[] array)
 {
 	// USAGE
-	// AddPlayerToArray(client, g_BluePlayers, true);
+	// AddPlayerToArray(client, g_BluePlayers);
 	if (client < 1) return;
-	if ((alive == true) && (!IsPlayerAlive(client))) return;
 	// SEARCH A FREE SLOT INSIDE ARRAY
 	
 	// ADDS CLIENT INDEX TO ARRAY
@@ -1975,7 +1979,7 @@ void RemoveFromTeam(int client)
 		//CPrintToChat(client, "[{lime}Team Games{default}] Removed from {fullred}RED{default} team.");
 		CPrintToChat(client, "%t", "removed_from_red");
 	}
-	if (g_BluePlayers[client] == client)
+	else if (g_BluePlayers[client] == client)
 	{
 		g_BluePlayers[client] = -1;
 		g_BlueCount--;
@@ -2157,7 +2161,7 @@ public Action Timer_Global(Handle timer)
 					if ((g_RedCount < (TEAM_MAXPLAYERS-1)) && (g_RedCount <= g_BlueCount))
 					{
 						RemoveFromTeam(i);
-						AddPlayerToArray(i, g_RedPlayers, false);
+						AddPlayerToArray(i, g_RedPlayers);
 						GetClientName(i, g_PlayerName[i], sizeof(g_PlayerName[]));
 						//CPrintToChatAll("[{lime}Team Games{default}] %s has joined {fullred}RED{default} team.", g_PlayerName[i]);
 						CPrintToChatAll("%t", "joined_red_team", g_PlayerName[i]);
@@ -2166,7 +2170,7 @@ public Action Timer_Global(Handle timer)
 					{
 						// CHECK IF POSSIBLE TO ADD TO BLUE TEAM
 						RemoveFromTeam(i);
-						AddPlayerToArray(i, g_BluePlayers, false);
+						AddPlayerToArray(i, g_BluePlayers);
 						GetClientName(i, g_PlayerName[i], sizeof(g_PlayerName[]));
 						//CPrintToChatAll("[{lime}Team Games{default}] %s has joined {fullblue}BLUE{default} team.", g_PlayerName[i]);
 						CPrintToChatAll("%t", "joined_blue_team", g_PlayerName[i]);
@@ -2175,8 +2179,8 @@ public Action Timer_Global(Handle timer)
 				else
 				{
 					// AUTO TEAM BALANCE
-					if ((g_RedCount - g_BlueCount) > 1) Command_Blue(i, 0);
-					else if ((g_BlueCount - g_RedCount) > 1) Command_Red(i, 0);
+					if ((g_RedCount - g_BlueCount) >= 2) Command_Blue(i, 0);
+					else if ((g_BlueCount - g_RedCount) >= 2) Command_Red(i, 0);
 				}
 				// GLOW AND TRAIL FOR GOALKEEPERS
 				if (i == g_GK_red)
