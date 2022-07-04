@@ -2179,8 +2179,18 @@ public Action Timer_Global(Handle timer)
 				else
 				{
 					// AUTO TEAM BALANCE
-					if ((g_RedCount - g_BlueCount) >= 2) Command_Blue(i, 0);
-					else if ((g_BlueCount - g_RedCount) >= 2) Command_Red(i, 0);
+					if ((g_RedCount - g_BlueCount) >= 2)
+					{
+						RemoveFromTeam(i);
+						AddPlayerToArray(i, g_BluePlayers);
+						CPrintToChatAll("%t", "joined_blue_team", g_PlayerName[i]);
+					}
+					else if ((g_BlueCount - g_RedCount) >= 2)
+					{
+						RemoveFromTeam(i);
+						AddPlayerToArray(i, g_RedPlayers);
+						CPrintToChatAll("%t", "joined_red_team", g_PlayerName[i]);
+					}
 				}
 				// GLOW AND TRAIL FOR GOALKEEPERS
 				if (i == g_GK_red)
