@@ -8,7 +8,7 @@
 //#pragma dynamic 131072
 
 #define PLUGIN_AUTHOR "Ulreth*"
-#define PLUGIN_VERSION "1.3.1" // 4-07-2022
+#define PLUGIN_VERSION "1.3.2" // 8-07-2022
 #define PLUGIN_NAME "[NMRiH] Team Games"
 
 #define FL_DUCKING (1 << 1)
@@ -128,6 +128,9 @@ CHANGELOG
 - Removed spamming text when trying team change
 - Fixed team change wrong cvar cooldown
 - Fixed team change bug
+
+1.3.2
+- Fixed player disconnect bug
 */
 
 #define TEAM_MAXPLAYERS 5
@@ -1971,21 +1974,20 @@ public void AddPlayerToArray(int client, int[] array)
 
 void RemoveFromTeam(int client)
 {
+	if (IsClientInGame(client))
+	{
+		AcceptEntityInput(client, "disableglow");
+		CPrintToChat(client, "%t", "removed_from_red");
+	}
 	if (g_RedPlayers[client] == client)
 	{
 		g_RedPlayers[client] = -1;
 		g_RedCount--;
-		AcceptEntityInput(client, "disableglow");
-		//CPrintToChat(client, "[{lime}Team Games{default}] Removed from {fullred}RED{default} team.");
-		CPrintToChat(client, "%t", "removed_from_red");
 	}
 	else if (g_BluePlayers[client] == client)
 	{
 		g_BluePlayers[client] = -1;
 		g_BlueCount--;
-		AcceptEntityInput(client, "disableglow");
-		//CPrintToChat(client, "[{lime}Team Games{default}] Removed from {fullblue}BLUE{default} team.");
-		CPrintToChat(client, "%t", "removed_from_blue");
 	}
 }
 
